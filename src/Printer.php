@@ -1,6 +1,8 @@
 <?php
 
-class Console
+namespace App;
+
+class Printer
 {
     public static function printUsers($users)
     {
@@ -13,6 +15,11 @@ class Console
         foreach ($users as $user) {
             echo "- ID: {$user['id']}, {$user['firstname']} {$user['lastname']}, {$user['email']}\n";
         }
+    }
+
+    public static function printUsersForWeb($users)
+    {
+        print_r(json_encode($users));
     }
 
     public static function printMessage($messages)

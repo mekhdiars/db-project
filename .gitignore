@@ -2,3 +2,4 @@
 /.vscode
 /vendor
 /database/users.json
+/test.php

@@ -1,18 +1,27 @@
 <?php
 
-require_once __DIR__ . "/Console.php";
-require_once __DIR__ . "/Validator.php";
-require_once __DIR__ . "/../vendor/autoload.php";
+namespace App;
 
-class UserRepository
+//require_once __DIR__ . "/../vendor/autoload.php";
+require_once __DIR__ . "/UserRepositoryInterface.php";
+
+use UserRepositoryInterface;
+
+class UserRepositoryJSON implements UserRepositoryInterface
 {
+    private $filepath;
+
+    public function __construct()
+    {
+        $this->filepath = __DIR__ . "/../database/users.json";
+    }
     public function all()
     {
-        $data = file_get_contents(__DIR__ . "/../database/users.json");
+        $data = file_get_contents($this->filepath);
         return json_decode($data, true) ?? [];
     }
 
-    public function add($data)
+    public function create($data)
     {
         $users = $this->all();
         $lastUser = $users[array_key_last($users)] ?? [];
@@ -36,7 +45,7 @@ class UserRepository
 
     public function save($users)
     {
-        file_put_contents(__DIR__ . "/../database/users.json", json_encode($users, JSON_PRETTY_PRINT));
+        file_put_contents($this->filepath, json_encode($users, JSON_PRETTY_PRINT));
     }
 
     public function find($id)
