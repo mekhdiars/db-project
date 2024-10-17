@@ -3,7 +3,7 @@ php public/index.php <команда>
 ### Команды для консоли
 - list
 - create <имя> <фамилия> <почта>
-- delete <ID>
+- delete \<ID\>
 
 ## Маршруты
 - GET /list-users
