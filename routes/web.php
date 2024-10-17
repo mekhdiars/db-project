@@ -5,6 +5,7 @@ require_once __DIR__ . "/../vendor/autoload.php";
 use App\Validator;
 use App\Printer;
 use App\UserRepositoryMySQL;
+use App\User;
 
 $repo = new UserRepositoryMySQL();
 $validator = new Validator();
@@ -14,8 +15,14 @@ $method = $_SERVER['REQUEST_METHOD'];
 
 if ($request === 'list-users' && $method === 'GET') {
     $users = $repo->all();
-    Printer::printUsersForWeb($users);
+    if (empty($users)) {
+        Printer::printMessage(json_encode('The list is empty'));
+    } else {
+        Printer::printUsersForWeb(json_encode($users));
+    }
+
     header('Status: 200 OK');
+    header('Content-Type: application/json');
 } elseif ($request === 'create-user' && $method === 'POST') {
     // getting data from the POST
     $json = file_get_contents('php://input');
@@ -24,7 +31,9 @@ if ($request === 'list-users' && $method === 'GET') {
         header('Status: 400 Bad Request', true, 400);
     }
 
-    $repo->create($data);
+    $user = new User();
+    $user->setDataFromWeb($data);
+    $repo->add($user);
     header('Status: 200 OK', true, 201);
 } elseif ($request === 'delete-user' && $method === 'DELETE') {
     $id = explode('/', ($uri))[1] ?? null;
@@ -32,7 +41,7 @@ if ($request === 'list-users' && $method === 'GET') {
         header('Status: 400 Bad Request', true, 400);
     }
 
-    $repo->delete($request);
+    $repo->delete($id);
     header('Status: 200 OK');
 } else {
     header('Status: 404 Not Found', true, 404);

@@ -5,14 +5,20 @@ require_once __DIR__ . "/../vendor/autoload.php";
 use App\Validator;
 use App\Printer;
 use App\UserRepositoryJSON;
+use App\User;
 
 $repo = new UserRepositoryJSON();
 $validator = new Validator();
-$command = $argv[1];
+$command = $argv[1] ?? null;
 
 switch ($command) {
     case 'list':
         $users = $repo->all();
+        if (empty($users)) {
+            Printer::printMessage('The list is empty');
+            break;
+        }
+
         Printer::printUsers($users);
         break;
     case 'create':
@@ -21,7 +27,9 @@ switch ($command) {
             break;
         }
 
-        $repo->create($argv);
+        $user = new User();
+        $user->setDataFromConsole($argv);
+        $repo->add($user);
         Printer::printMessage('User successfully added');
         break;
     case 'delete':
@@ -36,7 +44,7 @@ switch ($command) {
             break;
         }
 
-        $repo->delete($argv);
+        $repo->delete($id);
         Printer::printMessage('User successfully deleted');
         break;
     default:

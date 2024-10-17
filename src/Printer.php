@@ -6,20 +6,15 @@ class Printer
 {
     public static function printUsers($users)
     {
-        if (empty($users)) {
-            echo 'The list is empty';
-            return;
-        }
-
         echo 'List of users:' . PHP_EOL;
         foreach ($users as $user) {
             echo "- ID: {$user['id']}, {$user['firstname']} {$user['lastname']}, {$user['email']}\n";
         }
     }
 
-    public static function printUsersForWeb($users)
+    public static function printUsersForWeb($data)
     {
-        print_r(json_encode($users));
+        print_r($data);
     }
 
     public static function printMessage($messages)

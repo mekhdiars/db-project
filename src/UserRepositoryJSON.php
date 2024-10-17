@@ -21,23 +21,24 @@ class UserRepositoryJSON implements UserRepositoryInterface
         return json_decode($data, true) ?? [];
     }
 
-    public function create($data)
+    public function add($user)
     {
         $users = $this->all();
-        $lastUser = $users[array_key_last($users)] ?? [];
+        $lastUser = empty($users)
+            ? []
+            : $users[array_key_last($users)];
         $id = ($lastUser['id'] ?? 0) + 1;
         $users[$id - 1] = [
             'id' => $id,
-            'firstname' => $data[2],
-            'lastname' => $data[3],
-            'email' => $data[4]
+            'firstname' => $user->getFirstname(),
+            'lastname' => $user->getLastname(),
+            'email' => $user->getEmail(),
         ];
         $this->save($users);
     }
 
-    public function delete($data)
+    public function delete($id)
     {
-        $id = $data[2];
         $users = $this->all();
         unset($users[$id - 1]);
         $this->save($users);
