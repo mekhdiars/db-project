@@ -1,5 +1,5 @@
 ## Консоль
-php public/index.php
+php public/index.php <команда>
 ### Команды для консоли
 - list
 - create <имя> <фамилия> <почта>
