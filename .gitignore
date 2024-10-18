@@ -1,6 +1,6 @@
-/.idea
-/.vscode
-/vendor
-/database/users.json
-/database/mysql_data/*
-/test.php
+.idea
+.vscode
+vendor
+database/users.json
+database/mysql_data/*
+test.php
