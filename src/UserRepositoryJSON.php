@@ -2,10 +2,8 @@
 
 namespace App;
 
-//require_once __DIR__ . "/../vendor/autoload.php";
+require_once __DIR__ . "/../vendor/autoload.php";
 require_once __DIR__ . "/UserRepositoryInterface.php";
-
-use UserRepositoryInterface;
 
 class UserRepositoryJSON implements UserRepositoryInterface
 {

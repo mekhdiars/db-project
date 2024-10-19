@@ -1,10 +1,11 @@
 <?php
 
+namespace App;
 
 interface UserRepositoryInterface
 {
     public function all();
-    public function add($data);
-    public function delete($data);
+    public function add($user);
+    public function delete($id);
     public function find($id);
 }
