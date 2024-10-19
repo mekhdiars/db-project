@@ -6,6 +6,7 @@
 - delete \<ID\>
 
 ## Web
+`composer install`
 `make compose`
 - GET /list-users
 - POST /create-user
