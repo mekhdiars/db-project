@@ -8,18 +8,11 @@ class User
     private string $lastname;
     private string $email;
 
-    public function setDataFromConsole(array $data): void
+    public function __construct(string $firstname, string $lastname, string $email)
     {
-        $this->firstname = $data[2];
-        $this->lastname = $data[3];
-        $this->email = $data[4];
-    }
-
-    public function setDataFromWeb(array $data): void
-    {
-        $this->firstname = $data['firstname'];
-        $this->lastname = $data['lastname'];
-        $this->email = $data['email'];
+        $this->firstname = $firstname;
+        $this->lastname = $lastname;
+        $this->email = $email;
     }
 
     public function getFirstname(): string

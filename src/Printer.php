@@ -4,7 +4,7 @@ namespace App;
 
 class Printer
 {
-    public static function printUsers($users)
+    public static function printUsers(array $users): void
     {
         echo 'List of users:' . PHP_EOL;
         foreach ($users as $user) {
@@ -12,12 +12,12 @@ class Printer
         }
     }
 
-    public static function printUsersForWeb($data)
+    public static function printUsersInJSON(string $data): void
     {
-        print_r($data);
+        print_r(json_encode($data));
     }
 
-    public static function printMessage($messages)
+    public static function printMessage(string $messages): void
     {
         echo $messages . PHP_EOL;
     }

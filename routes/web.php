@@ -7,7 +7,8 @@ use App\Printer;
 use App\UserRepositoryMySQL;
 use App\User;
 
-$repo = new UserRepositoryMySQL();
+$repo = new UserRepositoryMySQL(getenv('DB_HOST'), getenv('DB_PORT'),
+    getenv('DB_DATABASE'), getenv('DB_USERNAME'), getenv('DB_PASSWORD'));
 $validator = new Validator();
 $uri = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
 $request = explode('/', $uri)[0];
@@ -20,7 +21,7 @@ if ($request === 'list-users' && $method === 'GET') {
     if (empty($users)) {
         Printer::printMessage(json_encode('The list is empty'));
     } else {
-    Printer::printUsersForWeb(json_encode($users));
+    Printer::printUsersInJSON($users);
     }
 } elseif ($request === 'create-user' && $method === 'POST') {
     // getting data from the POST
@@ -31,8 +32,7 @@ if ($request === 'list-users' && $method === 'GET') {
         return;
     }
 
-    $user = new User();
-    $user->setDataFromWeb($data);
+    $user = new User($data['firstname'], $data['lastname'], $data['email']);
     $repo->add($user);
     header('Status: 200 OK', true, 201);
 } elseif ($request === 'delete-user' && $method === 'DELETE') {

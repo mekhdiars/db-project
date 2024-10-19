@@ -27,8 +27,7 @@ switch ($command) {
             break;
         }
 
-        $user = new User();
-        $user->setDataFromConsole($argv);
+        $user = new User($argv[2], $argv[3], $argv[4]);
         $repo->add($user);
         Printer::printMessage('User successfully added');
         break;

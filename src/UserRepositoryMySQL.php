@@ -10,14 +10,8 @@ class UserRepositoryMySQL implements UserRepositoryInterface
 {
     private PDO $pdo;
 
-    public function __construct()
+    public function __construct($host, $port, $dbname, $username, $password)
     {
-        $host = getenv('DB_HOST');
-        $port = getenv('DB_PORT');
-        $dbname = getenv('DB_DATABASE');
-        $username = getenv('DB_USERNAME');
-        $password = getenv('DB_PASSWORD');
-
         $dsn = "mysql:host=$host;port=$port;dbname=$dbname";
         $this->pdo = new PDO($dsn, $username, $password);
     }
