@@ -1,15 +1,8 @@
 <?php
 
-require_once __DIR__ . "/../vendor/autoload.php";
-
-use App\Validator;
 use App\Printer;
-use App\UserRepositoryMySQL;
 use App\User;
 
-$repo = new UserRepositoryMySQL(getenv('DB_HOST'), getenv('DB_PORT'),
-    getenv('DB_DATABASE'), getenv('DB_USERNAME'), getenv('DB_PASSWORD'));
-$validator = new Validator();
 $uri = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
 $request = explode('/', $uri)[0];
 $method = $_SERVER['REQUEST_METHOD'];

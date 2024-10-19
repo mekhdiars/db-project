@@ -1,14 +1,8 @@
 <?php
 
-require_once __DIR__ . "/../vendor/autoload.php";
-
-use App\Validator;
 use App\Printer;
-use App\UserRepositoryJSON;
 use App\User;
 
-$repo = new UserRepositoryJSON();
-$validator = new Validator();
 $command = $argv[1] ?? null;
 
 switch ($command) {

@@ -2,16 +2,13 @@
 
 namespace App;
 
-require_once __DIR__ . "/../vendor/autoload.php";
-require_once __DIR__ . "/UserRepositoryInterface.php";
-
 class UserRepositoryJSON implements UserRepositoryInterface
 {
     private string $filepath;
 
-    public function __construct()
+    public function __construct(string $filepath)
     {
-        $this->filepath = __DIR__ . "/../database/users.json";
+        $this->filepath = __DIR__ . $filepath;
     }
     public function all(): array
     {
@@ -35,14 +32,14 @@ class UserRepositoryJSON implements UserRepositoryInterface
         $this->save($users);
     }
 
-    public function delete(int $id)
+    public function delete(int $id): void
     {
         $users = $this->all();
         unset($users[$id - 1]);
         $this->save($users);
     }
 
-    public function save($users)
+    public function save($users): void
     {
         file_put_contents($this->filepath, json_encode($users, JSON_PRETTY_PRINT));
     }

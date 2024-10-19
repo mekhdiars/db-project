@@ -2,8 +2,6 @@
 
 namespace App;
 
-require_once __DIR__ . "/UserRepositoryInterface.php";
-
 use PDO;
 
 class UserRepositoryMySQL implements UserRepositoryInterface

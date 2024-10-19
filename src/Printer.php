@@ -12,9 +12,9 @@ class Printer
         }
     }
 
-    public static function printUsersInJSON(string $data): void
+    public static function printUsersInJSON(string|array $data): void
     {
-        print_r(json_encode($data));
+        print_r(json_encode($data, JSON_PRETTY_PRINT));
     }
 
     public static function printMessage(string $messages): void
