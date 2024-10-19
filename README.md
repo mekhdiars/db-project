@@ -13,6 +13,7 @@ php public/index.php <команда>
 ```
 make up
 ```
+<http://0.0.0.0:8080>
 ### Маршруты
 - GET /list-users
 - POST /create-user
