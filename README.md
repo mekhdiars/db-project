@@ -6,8 +6,11 @@
 - delete \<ID\>
 
 ## Web
-`composer install`
-`make compose`
+```
+composer install
+make compose
+```
+### Маршруты
 - GET /list-users
 - POST /create-user
 - DELETE /delete-user/{id}
