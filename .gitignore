@@ -2,5 +2,5 @@
 .vscode
 vendor
 database/users.json
-database/mysql_data/*
+database/db_data/*
 test.php
