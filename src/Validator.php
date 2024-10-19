@@ -4,7 +4,7 @@ namespace App;
 
 class Validator
 {
-    public function isValidForAdd($data)
+    public function isValidForAdd(array $data): bool
     {
         // checking the existence of firstname, lastname, email
         if (isset($data[2], $data[3], $data[4])
@@ -15,7 +15,7 @@ class Validator
         return false;
     }
 
-    public function isValidForDelete($data)
+    public function isValidForDelete(array $data): bool
     {
         // checking the existence of ID
         if (array_key_exists(2, $data)) {

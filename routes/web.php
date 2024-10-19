@@ -15,16 +15,13 @@ $method = $_SERVER['REQUEST_METHOD'];
 
 if ($request === 'list-users' && $method === 'GET') {
     $users = $repo->all();
-    if (empty($users)) {
-        header('Status: 200 OK');
-        header('Content-Type: application/json');
-        Printer::printMessage(json_encode('The list is empty'));
-        return;
-    }
-
     header('Status: 200 OK');
     header('Content-Type: application/json');
+    if (empty($users)) {
+        Printer::printMessage(json_encode('The list is empty'));
+    } else {
     Printer::printUsersForWeb(json_encode($users));
+    }
 } elseif ($request === 'create-user' && $method === 'POST') {
     // getting data from the POST
     $json = file_get_contents('php://input');

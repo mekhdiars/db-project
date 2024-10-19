@@ -7,19 +7,19 @@ require_once __DIR__ . "/UserRepositoryInterface.php";
 
 class UserRepositoryJSON implements UserRepositoryInterface
 {
-    private $filepath;
+    private string $filepath;
 
     public function __construct()
     {
         $this->filepath = __DIR__ . "/../database/users.json";
     }
-    public function all()
+    public function all(): array
     {
         $data = file_get_contents($this->filepath);
-        return json_decode($data, true) ?? [];
+        return json_decode($data, true);
     }
 
-    public function add($user)
+    public function add(User $user): void
     {
         $users = $this->all();
         $lastUser = empty($users)
@@ -35,7 +35,7 @@ class UserRepositoryJSON implements UserRepositoryInterface
         $this->save($users);
     }
 
-    public function delete($id)
+    public function delete(int $id)
     {
         $users = $this->all();
         unset($users[$id - 1]);
@@ -47,7 +47,7 @@ class UserRepositoryJSON implements UserRepositoryInterface
         file_put_contents($this->filepath, json_encode($users, JSON_PRETTY_PRINT));
     }
 
-    public function find($id)
+    public function find(int $id)
     {
         $users = $this->all();
         return $users[$id - 1] ?? [];
