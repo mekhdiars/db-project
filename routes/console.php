@@ -4,6 +4,11 @@ use App\Printer;
 use App\User;
 
 $command = $argv[1] ?? null;
+$validator = new App\Validator();
+$repo = getenv('DB_SOURCE') === 'json'
+    ? new App\UserRepositoryJSON("/../database/users.json")
+    : new App\UserRepositoryMySQL(getenv('DB_HOST'), getenv('DB_PORT'),
+        getenv('DB_DATABASE'), getenv('DB_USERNAME'), getenv('DB_PASSWORD'));
 
 switch ($command) {
     case 'list':

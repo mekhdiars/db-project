@@ -6,6 +6,11 @@ use App\User;
 $uri = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
 $request = explode('/', $uri)[0];
 $method = $_SERVER['REQUEST_METHOD'];
+$validator = new App\Validator();
+$repo = getenv('DB_SOURCE') === 'json'
+    ? new App\UserRepositoryJSON("/../database/users.json")
+    : new App\UserRepositoryMySQL(getenv('DB_HOST'), getenv('DB_PORT'),
+        getenv('DB_DATABASE'), getenv('DB_USERNAME'), getenv('DB_PASSWORD'));
 
 if ($request === 'list-users' && $method === 'GET') {
     $users = $repo->all();
