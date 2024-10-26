@@ -4,8 +4,8 @@ require_once __DIR__ . "/../vendor/autoload.php";
 
 use App\User\UserRepositoryMySQL;
 use App\User\UserRepositoryJSON;
-use App\User\UserControllerMySQL;
-use App\User\UserControllerJSON;
+use App\User\UserControllerHTTP;
+use App\User\UserControllerConsole;
 
 App\EnvReader::read(realpath(__DIR__ . "/../.env"));
 $validator = new App\Validator();
@@ -13,11 +13,11 @@ $printer = new App\Printer();
 
 if (getenv('DB_SOURCE') === 'json') {
     $repo = new UserRepositoryJSON(realpath(__DIR__ . "/../database/users.json"));
-    $userController = new UserControllerJSON($repo, $validator, $printer);
+    $userController = new UserControllerConsole($repo, $validator, $printer);
 } else {
     $repo = new UserRepositoryMySQL(getenv('DB_HOST'), getenv('DB_PORT'),
         getenv('DB_DATABASE'), getenv('DB_USERNAME'), getenv('DB_PASSWORD'));
-    $userController = new UserControllerMySQL($repo, $validator, $printer);
+    $userController = new UserControllerHTTP($repo, $validator, $printer);
 }
 
 $router = new App\Router($userController);

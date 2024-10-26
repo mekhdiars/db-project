@@ -5,7 +5,7 @@ namespace App\User;
 use App\Validator;
 use App\Printer;
 
-class UserControllerJSON implements UserControllerInterface
+class UserControllerConsole implements UserControllerInterface
 {
     private UserRepositoryInterface $repo;
     private Validator $validator;

@@ -5,7 +5,7 @@ namespace App\User;
 use App\Validator;
 use App\Printer;
 
-class UserControllerMySQL implements UserControllerInterface
+class UserControllerHTTP implements UserControllerInterface
 {
     private UserRepositoryInterface $repo;
     private Validator $validator;
