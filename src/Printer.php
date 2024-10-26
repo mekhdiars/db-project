@@ -17,8 +17,8 @@ class Printer
         print_r(json_encode($data, JSON_PRETTY_PRINT));
     }
 
-    public function printMessage(string $messages): void
+    public function printMessage(string $message): void
     {
-        echo $messages . PHP_EOL;
+        echo $message . PHP_EOL;
     }
 }
