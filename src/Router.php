@@ -2,58 +2,32 @@
 
 namespace App;
 
+use App\User\UserControllerInterface;
+
 class Router
 {
-    private UserRepositoryInterface $repo;
-    private Validator $validator;
-    private Printer $printer;
+    private UserControllerInterface $userController;
 
-    public function __construct(UserRepositoryInterface $repo, Validator $validator, Printer $printer)
+    public function __construct(UserControllerInterface $userController)
     {
-        $this->repo = $repo;
-        $this->validator = $validator;
-        $this->printer = $printer;
+        $this->userController = $userController;
     }
 
-    public function console(string $command, array $argv): void
+    public function console(string $command, array $data): void
     {
         switch ($command) {
             case 'list':
-                $users = $this->repo->all();
-                if (empty($users)) {
-                    $this->printer->printMessage('The list is empty');
-                    break;
-                }
-
-                $this->printer->printUsers($users);
+                $this->userController->list();
                 break;
             case 'create':
-                if (!$this->validator->isValidForAdd($argv)) {
-                    $this->printer->printMessage('Enter all the data: firstname, lastname, email');
-                    break;
-                }
-
-                $user = new User($argv[2], $argv[3], $argv[4]);
-                $this->repo->add($user);
-                $this->printer->printMessage('User successfully added');
+                $this->userController->create($data);
                 break;
             case 'delete':
-                if (!$this->validator->isValidForDelete($argv)) {
-                    $this->printer->printMessage('Enter the user ID to delete');
-                    break;
-                }
-
-                $id = $argv[2];
-                if (empty($this->repo->find($id))) {
-                    $this->printer->printMessage('There is no user with this id');
-                    break;
-                }
-
-                $this->repo->delete($id);
-                $this->printer->printMessage('User successfully deleted');
+                $id = $data[2] ?? null;
+                $this->userController->delete($id);
                 break;
             default:
-                $this->printer->printMessage('Undefined Command');
+                $this->userController->unknown();
                 break;
         }
     }
@@ -61,37 +35,17 @@ class Router
     public function web(string $uri, string $request, string $method): void
     {
         if ($request === 'list-users' && $method === 'GET') {
-            $users = $this->repo->all();
-            header('Status: 200 OK');
-            header('Content-Type: application/json');
-            if (empty($users)) {
-                $this->printer->printMessage(json_encode('The list is empty'));
-            } else {
-                $this->printer->printUsersInJSON($users);
-            }
+            $this->userController->list();
         } elseif ($request === 'create-user' && $method === 'POST') {
-            // getting data from the POST
+            // получение данных JSON отправленных через POST-запрос
             $json = file_get_contents('php://input');
             $data = json_decode($json, true);
-            if (!$this->validator->isValidForAdd($data)) {
-                header('Status: 400 Bad Request', true, 400);
-                return;
-            }
-
-            $user = new User($data['firstname'], $data['lastname'], $data['email']);
-            $this->repo->add($user);
-            header('Status: 200 OK', true, 201);
+            $this->userController->create($data);
         } elseif ($request === 'delete-user' && $method === 'DELETE') {
             $id = explode('/', ($uri))[1] ?? null;
-            if (empty($this->repo->find($id))) {
-                header('Status: 400 Bad Request', true, 400);
-                return;
-            }
-
-            $this->repo->delete($id);
-            header('Status: 200 OK');
+            $this->userController->delete($id);
         } else {
-            header('Status: 404 Not Found', true, 404);
+            $this->userController->unknown();
         }
     }
 }

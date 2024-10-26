@@ -5,12 +5,17 @@ require_once __DIR__ . "/../vendor/autoload.php";
 App\EnvReader::read(realpath(__DIR__ . "/../.env"));
 $validator = new App\Validator();
 $printer = new App\Printer();
-$repo = getenv('DB_SOURCE') === 'json'
-    ? new App\UserRepositoryJSON("/../database/users.json")
-    : new App\UserRepositoryMySQL(getenv('DB_HOST'), getenv('DB_PORT'),
-        getenv('DB_DATABASE'), getenv('DB_USERNAME'), getenv('DB_PASSWORD'));
 
-$router = new App\Router($repo, $validator, $printer);
+if (getenv('DB_SOURCE') === 'json') {
+    $repo = new App\User\UserRepositoryJSON(realpath(__DIR__ . "/../database/users.json"));
+    $userController = new App\User\UserControllerJSON($repo, $validator, $printer);
+} else {
+    $repo = new App\User\UserRepositoryMySQL(getenv('DB_HOST'), getenv('DB_PORT'),
+        getenv('DB_DATABASE'), getenv('DB_USERNAME'), getenv('DB_PASSWORD'));
+    $userController = new App\User\UserControllerMySQL($repo, $validator, $printer);
+}
+
+$router = new App\Router($userController);
 
 if (isset($argv[0])) {
     $command = $argv[1] ?? null;

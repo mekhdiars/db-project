@@ -14,14 +14,4 @@ class Validator
 
         return false;
     }
-
-    public function isValidForDelete(array $data): bool
-    {
-        // checking the existence of ID
-        if (array_key_exists(2, $data)) {
-            return true;
-        }
-
-        return false;
-    }
 }

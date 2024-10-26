@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\User;
 
 class UserRepositoryJSON implements UserRepositoryInterface
 {
@@ -8,7 +8,7 @@ class UserRepositoryJSON implements UserRepositoryInterface
 
     public function __construct(string $filepath)
     {
-        $this->filepath = __DIR__ . $filepath;
+        $this->filepath = $filepath;
     }
     public function all(): array
     {
