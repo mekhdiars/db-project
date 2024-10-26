@@ -2,8 +2,7 @@
 
 require_once __DIR__ . "/../vendor/autoload.php";
 
-readEnv();
-
+App\EnvReader::read(realpath(__DIR__ . "/../.env"));
 $validator = new App\Validator();
 $printer = new App\Printer();
 $repo = getenv('DB_SOURCE') === 'json'
