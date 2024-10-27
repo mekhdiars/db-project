@@ -8,16 +8,14 @@ use App\User\UserControllerHTTP;
 use App\User\UserControllerConsole;
 
 App\EnvReader::read(realpath(__DIR__ . "/../.env"));
-$validator = new App\Validator();
-$printer = new App\Printer();
 
-if (getenv('DB_SOURCE') === 'json') {
-    $repo = new UserRepositoryJSON(realpath(__DIR__ . "/../database/users.json"));
-    $userController = new UserControllerConsole($repo, $validator, $printer);
-} else {
+if (getenv('DB_SOURCE') === 'mysql') {
     $repo = new UserRepositoryMySQL(getenv('DB_HOST'), getenv('DB_PORT'),
         getenv('DB_DATABASE'), getenv('DB_USERNAME'), getenv('DB_PASSWORD'));
-    $userController = new UserControllerHTTP($repo, $validator, $printer);
+    $userController = new UserControllerHTTP($repo);
+} else {
+    $repo = new UserRepositoryJSON(realpath(__DIR__ . "/../database/users.json"));
+    $userController = new UserControllerConsole($repo);
 }
 
 $router = new App\Router($userController);

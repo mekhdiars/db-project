@@ -11,11 +11,11 @@ class UserControllerConsole implements UserControllerInterface
     private Validator $validator;
     private Printer $printer;
 
-    public function __construct(UserRepositoryInterface $repo, Validator $validator, Printer $printer)
+    public function __construct(UserRepositoryInterface $repo)
     {
         $this->repo = $repo;
-        $this->validator = $validator;
-        $this->printer = $printer;
+        $this->validator = new Validator();
+        $this->printer = new Printer();
     }
 
     public function list(): void
