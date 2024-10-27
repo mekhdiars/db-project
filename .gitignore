@@ -3,4 +3,5 @@
 vendor
 database/users.json
 database/db_data/*
+!database/db_data/.gitkeep
 test.php

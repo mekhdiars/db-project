@@ -11,11 +11,11 @@ class UserControllerHTTP implements UserControllerInterface
     private Validator $validator;
     private Printer $printer;
 
-    public function __construct(UserRepositoryInterface $repo)
+    public function __construct(UserRepositoryInterface $repo, Validator $validator, Printer $printer)
     {
         $this->repo = $repo;
-        $this->validator = new Validator();
-        $this->printer = new Printer();
+        $this->validator = $validator;
+        $this->printer = $printer;
     }
 
     public function list(): void

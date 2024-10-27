@@ -19,9 +19,7 @@ class UserRepositoryJSON implements UserRepositoryInterface
     public function add(User $user): void
     {
         $users = $this->all();
-        $lastUser = empty($users)
-            ? []
-            : $users[array_key_last($users)];
+        $lastUser = empty($users) ? [] : $users[array_key_last($users)];
         $id = ($lastUser['id'] ?? 0) + 1;
         $users[$id - 1] = [
             'id' => $id,
